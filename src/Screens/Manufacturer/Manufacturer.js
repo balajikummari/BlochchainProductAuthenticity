@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TopBar from '../../Components/TopBar/TopBar'
-import { Card ,Button, Form, FormControl} from 'react-bootstrap';
-import { string } from 'postcss-selector-parser';
+import { Card ,Button, Form} from 'react-bootstrap';
 
 
 class Manufacturer extends Component {
@@ -11,17 +10,17 @@ class Manufacturer extends Component {
         this.state = {  
             isLoading : false,
             UIDofProduct:[],
+            ProductName : null,
+            Description : null,
+            BestBefore  : null
         }
-        this.handleClick = this.handleClick.bind(this)
     }
     
-    ApiRequest() {
-        console.log("handle SPI")
+    ApiRequest() { 
         return new Promise((resolve) => setTimeout(resolve, 2000));
     }
 
     AddProduct() {
-        console.log("Add Product")
         if (this.state.isLoading) {
             this.ApiRequest().then(() => {
               this.setState({isLoading : false})
@@ -30,11 +29,17 @@ class Manufacturer extends Component {
         }
     }
 
-   async handleClick(){
+   async handleSubmit(){
         console.log("handle click")
-        await this.setState({isLoading:true})
+       await this.setState({isLoading:true})
         this.AddProduct();
    } 
+   async handleChange(e){
+    let change = {}
+    change[e.target.name] = e.target.value
+    this.setState(change)
+   }
+
     render() { 
         return ( 
         <div className="vh-100 ">
@@ -45,20 +50,20 @@ class Manufacturer extends Component {
                 <Form className="fl w-80 pv3 center">
                         <Form.Group >
                             <Form.Label>Prodcut Name :</Form.Label>
-                            <Form.Control className="i f4" type="text" placeholder="Amul Cool Cafe"  required/>
+                            <Form.Control className="i f4" type="text" placeholder="Amul Cool Cafe" name="ProductName" onChange = {this.handleChange.bind(this)} required/>
                         </Form.Group>
                         <Form.Group >
                             <Form.Label>Description :</Form.Label>
-                            <Form.Control className="i f4" type="text" placeholder="Amul Cool Cafe 200ml Can"  required/>
+                            <Form.Control className="i f4" type="text" placeholder="Amul Cool Cafe 200ml Can"  name="Description" onChange = {this.handleChange.bind(this)}  required/>
                         </Form.Group>
                         <Form.Group >
                             <Form.Label>Best Before :</Form.Label>
-                            <Form.Control className="i f4" type="text" placeholder="3 weeks"  required/>
+                            <Form.Control className="i f4" type="text" placeholder="3 weeks"  name="BestBefore" onChange = {this.handleChange.bind(this)} required/>
                         </Form.Group>
                         <Button
                             variant="primary"
                             disabled={this.state.isLoading}
-                            onClick={this.handleClick }
+                            onClick={this.handleSubmit.bind(this) }
                             >
                             {this.state.isLoading ? 'Manufacturing Products & Adding to Blockchain.........' : 'Manufacture Product'}
                             </Button>
