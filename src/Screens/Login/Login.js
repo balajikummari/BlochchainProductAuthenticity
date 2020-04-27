@@ -7,24 +7,23 @@ class Login extends Component {
     state = {account: ''}
 
     async loadBlockChain() {
-        const Web3 = require('web3');
 
-        let USER = "u1g3mfl806";
-        let PASS = "EjOXSRsvhXPqfCkYdZqEXBPvGaQ4Nj4xYWt0W6ufBvk";
-        let RPC_ENDPOINT = "u1ls3q82nb-u1rfqokt6v-rpc.us1-azure.kaleido.io"; // Remove the leading https://
+        let RPC_ENDPOINT = "https://e0eregoq5z:FfuCovVsKAtpZwXKR5tey2CTY9gIF4PZZGFYJnLMcBE@e0hjr0v783-e0rwwtnto1-wss.de0-aws.kaleido.io/"; // Remove the leading https://
         
-        let nodeUrl = "https://" + USER + ":" + PASS + "@" + RPC_ENDPOINT;
-        
-        let provider = new Web3.providers.HttpProvider(nodeUrl);
-        let web3 = new Web3(provider);
+        let provider = new Web3.providers.HttpProvider(RPC_ENDPOINT)
+            
+            // ,0,
+            // {
+            //     "Access-Control-Allow-Origin": "http://localhost:3000",
+            //     Authorization: 'Basic Authorization: Basic ZTBlcmVnb3E1ejpGZnVDb3ZWc0tBdHBad1hLUjV0ZXkyQ1RZOWdJRjRQWlpHRllKbkxNY0JF'
+            // });
+        let web3 =  new Web3(provider);
         
         // Now you can call web3 functions, so we'll just test the connection by getting the latest block in the chain.
         
         web3.eth.getBlock("latest").then((latestBlock) => {
             console.log("Latest Block Via HTTP Provider: ")
             console.log(latestBlock);
-            // Stop the program once this has finished
-            process.exit();
         });
       }
 
