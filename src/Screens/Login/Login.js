@@ -1,36 +1,19 @@
 import React, { Component } from 'react';
 import TopBar from '../../Components/TopBar/TopBar'
 import { Button} from 'react-bootstrap';
-import Web3 from 'web3';
+import Contract from '../../web3/Contract'
+import Web3 from "web3";
 
 class Login extends Component {
-    state = {account: ''}
-
-    async loadBlockChain() {
-
-        let RPC_ENDPOINT = "https://e0eregoq5z:FfuCovVsKAtpZwXKR5tey2CTY9gIF4PZZGFYJnLMcBE@e0hjr0v783-e0rwwtnto1-wss.de0-aws.kaleido.io/"; // Remove the leading https://
-        
-        let provider = new Web3.providers.HttpProvider(RPC_ENDPOINT)
-            
-            // ,0,
-            // {
-            //     "Access-Control-Allow-Origin": "http://localhost:3000",
-            //     Authorization: 'Basic Authorization: Basic ZTBlcmVnb3E1ejpGZnVDb3ZWc0tBdHBad1hLUjV0ZXkyQ1RZOWdJRjRQWlpHRllKbkxNY0JF'
-            // });
-        let web3 =  new Web3(provider);
-        
-        // Now you can call web3 functions, so we'll just test the connection by getting the latest block in the chain.
-        
-        web3.eth.getBlock("latest").then((latestBlock) => {
-            console.log("Latest Block Via HTTP Provider: ")
-            console.log(latestBlock);
-        });
-      }
-
-    componentDidMount(){
-        this.loadBlockChain()
+    state = {account : null};
+   
+   async componentDidMount(){
+       var _contract = await new Contract()
+       await _contract.load()
+       var output = await _contract.runExample()
+    console.log( "output of bc"+ output)
     }
-
+    
     render() { 
         return (
             <div className="vh-100 ">
