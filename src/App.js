@@ -3,6 +3,8 @@ import Login from './Screens/Login/Login'
 import Manufacturer from './Screens/Manufacturer/Manufacturer'
 import Retailer from './Screens/Retailer/Retailer'
 import Customer from './Screens/Customer/Customer'
+import FSSAI from './Screens/FSSAI/FSSAI'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,7 +20,7 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/Manufacturer">
+          <Route path="/Manufacturer" >
             <Manufacturer />
           </Route>
           <Route path="/Retailer">
@@ -26,6 +28,9 @@ export default function App() {
           </Route>
           <Route path="/Customer">
             <Customer />
+          </Route>
+          <Route path="/FSSAI">
+            <FSSAI />
           </Route>
           <Route path="/">
             <Login />

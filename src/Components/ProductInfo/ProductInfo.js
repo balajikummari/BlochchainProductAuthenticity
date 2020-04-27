@@ -36,6 +36,7 @@ class ProductInfo extends Component {
     let change = {}
     change[e.target.name] = e.target.value
     this.setState(change)
+    this.props.getId(e.target.value)
    }
 
    async handleCheckId(){
@@ -50,8 +51,7 @@ class ProductInfo extends Component {
                 <Card > 
                     <Form className="w-70 pv3 center">
                         <div className="fl w-50">
-                                <Form.Label>Product ID:</Form.Label>
-                                <Form.Control className="i f4" type="text" placeholder="UID156945" name="ProductId" onChange = {this.handleChange.bind(this)} required/>
+                                <Form.Control className="i f4" type="text" placeholder="Product ID" name="ProductId" onChange = {this.handleChange.bind(this)} required/>
                         </div>
                         <div className ="fl pl3 pt4 v-btm vh-20  w-30 ">
                             <Button variant="primary" disabled={this.state.isLoading} onClick={this.handleCheckId.bind(this)} block>
@@ -66,6 +66,7 @@ class ProductInfo extends Component {
                         <span>Description : {this.state.ProductDetails.Description || "" }</span>
                         <span>ManufacturedDate : {this.state.ProductDetails.ManufacturedDate || ""} </span>
                         <span>BestBefore : {this.state.ProductDetails.BestBefore || ""} </span>
+                        <span>Retailer   : {this.state.ProductDetails.Retailername || ""} </span>
                  </Card>
             </div>
        
