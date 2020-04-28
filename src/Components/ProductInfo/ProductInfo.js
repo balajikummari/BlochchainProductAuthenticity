@@ -1,41 +1,43 @@
 
 import React, { Component } from "react";
 import { Card ,Button, Form} from 'react-bootstrap';
+import Contract from '../../web3/Contract'
 
 class ProductInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            contract : null,
             isLoading : false, 
             ProductId : null,
             ProductDetails : {}
          }
     }
-
-    ApiRequest() { 
-        console.log("handle SPI")
-        return new Promise((resolve) => setTimeout(resolve, 2000));
+    async componentDidMount(){
+        var _contract = await new Contract()
+        await _contract.load()
+        await this.setState({contract : _contract})
+        
     }
+    
 
-    CheckProduct() {
-        if (this.state.isLoading) {
-            this.ApiRequest().then(() => {
-              this.setState({isLoading : false})
-              this.setState({ProductDetails :
-                               {ManufacturerName : "Amul Milk Producks",
-                                ProductName : "Amul Kool Cafe",
-                                Description : "Amul Kool Cafe 200 ml Can",
-                                ManufacturedDate : "23 April 2020",
-                                BestBefore : "180 Days",
-                                }})
-            })
-        }
+  async CheckProduct() { 
+        const Product = await this.state.contract.GetProductInfo(this.state.ProductId)
+       await this.setState({ProductDetails :
+            {ManufacturerName : Product.ManufacturerName,
+             ProductName : Product.ProductName,
+             Description : Product.Description,
+             ManufacturedDate :Product.ManufactureDate,
+             BestBefore : Product.Bestbefore,
+             Retailername : Product.RetailerName,
+             }})
+        await this.setState({isLoading : false})     
     }
 
   async handleChange(e){
     let change = {}
     change[e.target.name] = e.target.value
-    this.setState(change)
+     this.setState(change)
     this.props.getId(e.target.value)
    }
 
@@ -43,8 +45,6 @@ class ProductInfo extends Component {
     await this.setState({isLoading:true})
     this.CheckProduct();
 } 
-
-
     render() { 
         return (   
             <div>

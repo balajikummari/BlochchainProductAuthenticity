@@ -3,20 +3,25 @@ import TopBar from '../../Components/TopBar/TopBar'
 import { Card ,Button, Form} from 'react-bootstrap';
 import ProductInfo from '../../Components/ProductInfo/ProductInfo'
 import RaiseComplaint from '../../Components/RaiseComplaint/RaiseComplaint';
-
+import Contract from '../../web3/Contract'
 class Customer extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
+            contract :null,
             isLoading : false, 
             ProductId : null,
             ProductDetails : {},
+            complaint:null,
             RenderComplaintBox : []
          }
     }
     
-    ApiRequest() { 
-        return new Promise((resolve) => setTimeout(resolve, 2000));
+    async componentDidMount(){
+        var _contract = await new Contract()
+        await _contract.load()
+        await this.setState({contract : _contract})
     }
 
    async HandleAddtobasket(){
@@ -25,8 +30,19 @@ class Customer extends Component {
 
    async HandleRaiseComplaint(){
     await this.setState({raiseComplaint:true})
-     this.setState({RenderComplaintBox : [].concat(<RaiseComplaint ProductId = {this.state.ProductId} />)})
+     this.setState({RenderComplaintBox : [].concat(<RaiseComplaint sendComplaint = {this.getComplaintContent.bind(this)} key = {this.state.ProductId} ProductId = {this.state.ProductId} />)})
    } 
+
+  async getComplaintContent(complaint){
+       await this.setState({complaint : complaint})
+       await this.RaiseComplaint()
+   }
+
+   
+   async RaiseComplaint() {
+          await this.state.contract.CreateComplaint(String(this.state.ProductId) ,String(this.state.complaint))
+}
+
 
     render() {
         return ( 

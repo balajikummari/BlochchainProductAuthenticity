@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
 import { Card ,Button, Form} from 'react-bootstrap';
+import Contract from '../../web3/Contract'
 
 class RaiseComplaint extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            isLoading : false
-         }
+            complaint : null,
+            isLoading : false,
+         }         
     }
-    
-     
-    ApiRequest() { 
-        return new Promise((resolve) => setTimeout(resolve, 2000));
-    }
-
-    RaiseComplaint() {
-        if (this.state.isLoading) {
-            this.ApiRequest().then(() => {
-              this.setState({isLoading : false})
-            })
-    }}
 
   async handleChange(e){
     let change = {}
@@ -28,9 +18,8 @@ class RaiseComplaint extends Component {
    }
 
    async handleSubmit(e){
-    await this.setState({isLoading:true})
-    this.RaiseComplaint()
-
+       e.preventDefault()
+    this.props.sendComplaint(this.state.complaint)
    }
 
     render() { 
@@ -41,7 +30,7 @@ class RaiseComplaint extends Component {
                     <span>Prodict ID : {this.props.ProductId}</span>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" name = "complaint" placeholder="Write your complaint here" rows="2" ></textarea>
+                    <textarea class="form-control" onChange = {this.handleChange.bind(this)} name = "complaint" placeholder="Write your complaint here" rows="2" ></textarea>
                 </div>
                 <div className ="pl3  ">
                     <Button variant="primary" disabled={this.state.isLoading} onClick={this.handleSubmit.bind(this)} block>

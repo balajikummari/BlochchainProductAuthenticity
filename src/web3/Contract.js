@@ -8,16 +8,12 @@ class Contract {
    FSSAI ;
    Complaint ;
    ProductID ; 
-  constructor() {
-    
-    this.load()
-  }
 
   load = async () => {
     try {
       const web3 = await getWeb3();
 
-       this.accounts = await web3.eth.getAccounts();
+      this.accounts = await web3.eth.getAccounts();
 
       const networkId = await web3.eth.net.getId();
 
@@ -35,12 +31,29 @@ class Contract {
     }
   };
 
- runExample = async () => {
-    const complaint = await this.FSSAI.methods.Complaints("id1").call();
-    console.log( "complaint from bc" + complaint.ProductID)
-    return complaint.ProductID
+ GetProductInfo = async (ProductID) => {
+    const Product = await this.FSSAI.methods.Products(ProductID).call();
+    return Product
   };
 
+  CreateProduct = async (ProductID, ProductName, Description, ManufacturerName,ManufactureDate,BestBefore ) => {
+    await this.FSSAI.methods.CreateProduct(ProductID, ProductName,        
+                            Description,ManufacturerName, 
+                            ManufactureDate,BestBefore).send({ from: this.accounts[0] });
+  }
+
+  AddProductToShelf = async (ProductID, RetailerName) => {
+    await this.FSSAI.methods.AddProductToShelf(ProductID, RetailerName).send({ from: this.accounts[0] });
+  }
+
+  CreateComplaint = async (ProductID, complaint) => {
+    await this.FSSAI.methods.CreateComplaint(ProductID, complaint).send({ from: this.accounts[0] });
+  }
+
+  GetComplaints = async(id) =>{
+    const Complaints = await this.FSSAI.methods.Complaints(id).call();
+    return Complaints
+  }
 }
  
 export default Contract ;

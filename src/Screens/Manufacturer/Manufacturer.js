@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
 import TopBar from '../../Components/TopBar/TopBar'
 import { Card ,Button, Form} from 'react-bootstrap';
-
+import Contract from '../../web3/Contract'
 
 class Manufacturer extends Component {
-
     constructor(props) {
         super(props);
         this.state = {  
+            contract : null,
             isLoading : false,
             UIDofProduct:[],
             ProductName : null,
             Description : null,
-            BestBefore  : null
+            BestBefore  : null,
+            ManufacturerName : "Amul Milk Products"
         }
     }
+    async componentDidMount(){
+        var _contract = await new Contract()
+        await _contract.load()
+        await this.setState({contract : _contract})
+    }
     
-    ApiRequest() { 
-        return new Promise((resolve) => setTimeout(resolve, 2000));
+    async ApiRequest() { 
+        var ProductId = String(Date.now())
+        var ManufacturerDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+        await this.state.contract.CreateProduct(
+            ProductId, this.state.ProductName, this.state.Description,
+            this.state.ManufacturerName,ManufacturerDate, this.state.BestBefore
+        )
+        this.setState({UIDofProduct : this.state.UIDofProduct.concat(ProductId)})
     }
 
     AddProduct() {
         if (this.state.isLoading) {
             this.ApiRequest().then(() => {
               this.setState({isLoading : false})
-              this.setState({UIDofProduct : this.state.UIDofProduct.concat('UIDAMP154265')})
             })
         }
     }
@@ -42,7 +53,7 @@ class Manufacturer extends Component {
 
     render() { 
         return ( 
-        <div className="vh-100 ">
+        <div className="vh-100 "> 
             <TopBar name = "Manufacturer Control Station"></TopBar>
            <div className = "dt  v-mid center pv6 w-50">
                 <span className="f2  center">Amul Products Dashboard</span>
