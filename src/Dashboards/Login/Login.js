@@ -10,7 +10,7 @@ class Login extends Component {
        var _contract = await new Contract()
        await _contract.load()
     }
-     
+      
     render() { 
         return (
             <div className="vh-100 ">

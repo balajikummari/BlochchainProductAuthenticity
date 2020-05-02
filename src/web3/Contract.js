@@ -1,6 +1,5 @@
 import getWeb3 from "./getWeb3";
-import FssaiContract from '../contracts/FSSAI.json'
-import React, { Component } from 'react';
+import FssaiContract from '../build/contracts/FSSAI.json'
 
 class Contract {
    accounts;
@@ -9,8 +8,8 @@ class Contract {
    Complaint ;
    ProductID ; 
 
-  load = async () => {
-    try {
+  load = async () => {       //Connecting to Blockchain and Loading FSSAI Contract 
+    try {                    // Read More https://web3js.readthedocs.io/en/v2.0.0-alpha/web3.html
       const web3 = await getWeb3();
 
       this.accounts = await web3.eth.getAccounts();
@@ -31,6 +30,9 @@ class Contract {
     }
   };
 
+
+  // Converting Solidity Methods into JavaScipt Methods
+  //  Know moew at https://www.trufflesuite.com/docs/truffle/getting-started/interacting-with-your-contracts
  GetProductInfo = async (ProductID) => {
     const Product = await this.FSSAI.methods.Products(ProductID).call();
     return Product

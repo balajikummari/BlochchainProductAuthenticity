@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Navbar ,Button} from 'react-bootstrap';
 
+// Responsible For Displaying the Header With Name and  Logout Button
 class TopBar extends Component {
-
     render() { 
         return (   
         <Navbar bg="primary" className="w-100  flex justify-between" variant="dark">

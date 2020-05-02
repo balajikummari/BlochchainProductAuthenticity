@@ -1,10 +1,9 @@
-import Web3 from "web3";
-
+import Web3 from "web3";            // Know more : https://web3js.readthedocs.io/en/v1.2.7/
 const getWeb3 = () =>
   new Promise((resolve, reject) => {
-    // Wait for loading completion to avoid race conditions with web3 injection timing.
+    // Connecting Program To BlockChain Node
     window.addEventListener("load", async () => {
-      // Modern dapp browsers...
+      // Check If Connected to Blockchain
       if (window.ethereum) {
         const web3 = new Web3(window.ethereum);
         try {
@@ -18,15 +17,15 @@ const getWeb3 = () =>
       }
       // Legacy dapp browsers...
       else if (window.web3) {
-        // Use Mist/MetaMask's provider.
+        // Use MetaMask's provider if available.
         const web3 = window.web3;
         console.log("Injected web3 detected.");
         resolve(web3);
       }
-      // Fallback to localhost; use dev console port by default...
+      // Connect Directly If metamask is not Present
       else {
         const provider = new Web3.providers.HttpProvider(
-            "https://e0eregoq5z:FfuCovVsKAtpZwXKR5tey2CTY9gIF4PZZGFYJnLMcBE@e0hjr0v783-e0rwwtnto1-rpc.de0-aws.kaleido.io"
+            "https://e0hxqvxbu7:DWq23BfI7ieTXmB4BodIDLKvirN37yb_juKxc-NHmIg@e0hjr0v783-e0rwwtnto1-rpc.de0-aws.kaleido.io"
         );
         const web3 = new Web3(provider);
         console.log("No web3 instance injected, using Local web3.");

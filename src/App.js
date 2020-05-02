@@ -1,9 +1,9 @@
 import React from "react";
-import Login from './Screens/Login/Login'
-import Manufacturer from './Screens/Manufacturer/Manufacturer'
-import Retailer from './Screens/Retailer/Retailer'
-import Customer from './Screens/Customer/Customer'
-import FSSAI from './Screens/FSSAI/FSSAI'
+import Login from './Dashboards/Login/Login'
+import ManufacturerDashboard from './Dashboards/Manufacturer/Manufacturer'
+import Retailer from './Dashboards/Retailer/Retailer'
+import Customer from './Dashboards/Customer/Customer'
+import FSSAI from './Dashboards/FSSAI/FSSAI'
 
 import {
   BrowserRouter as Router,
@@ -21,7 +21,7 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/Manufacturer" >
-            <Manufacturer />
+            <ManufacturerDashboard />
           </Route>
           <Route path="/Retailer">
             <Retailer />
